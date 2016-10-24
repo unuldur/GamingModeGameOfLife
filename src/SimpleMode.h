@@ -7,6 +7,8 @@
 
 
 #include "Mode.h"
+#include "../HashlifeGameOfLife/src/TreeUniverse.h"
+#include "../HashlifeGameOfLife/src/TreeNode.h"
 
 class SimpleMode : public Mode {
 public:
@@ -20,6 +22,10 @@ private:
     virtual void startRunning() override;
 
     virtual int getWinner() override;
+
+    TreeUniverse* universe;
+
+    string generations[10];
 };
 
 

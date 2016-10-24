@@ -5,7 +5,6 @@
 #include <iostream>
 #include <string>
 #include <list>
-#include "../GameOfLife/src/TreeNode.h"
 
 #ifndef SERVERGAMEOFLIFE_MODE_H
 #define SERVERGAMEOFLIFE_MODE_H
@@ -69,10 +68,9 @@ class Mode {
         };
 
 
-
-    private:
+    protected:
         int nbJoueur;
-        int idJoueurs[];
+        int * idJoueurs;
         int nbMaxGenerations;
         int indexId = 0;
 

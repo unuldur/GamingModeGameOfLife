@@ -4,7 +4,12 @@
 
 int main() {
     Mode* mode= FactoryMode::createInstance("SimpleMode");
-
-    std::cout << mode->getDifferenceGeneration(1) << std::endl;
+    mode->setByte(-1,-1,0);
+    mode->setByte(0,0,0);
+    mode->setByte(1,0,0);
+    mode->setByte(-1,1,0);
+    mode->setByte(0,1,0);
+    mode->startRunning();
+    cout << mode->getDifferenceGeneration(3) << endl;
     return 0;
 }

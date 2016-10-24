@@ -29,5 +29,6 @@
 *.app
 
 .idea
+HashlifeGameOfLife/
 GameOfLife/
 CMakeLists.txt
