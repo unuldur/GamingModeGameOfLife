@@ -5,24 +5,33 @@
 #include "SimpleMode.h"
 #include <math.h>
 #include <sstream>
+#include <pthread.h>
+#include <iostream>
+using namespace std;
 
-SimpleMode::SimpleMode() : Mode(2, 10) {
+SimpleMode::SimpleMode() : Mode(2, 10,"SimpleMode") {
     universe = new TreeUniverse();
 }
 
 void SimpleMode::setByte(const int x, const int y, const int idJoueur) {
-    universe->setByte(x,y);
+    int byte = universe->getByte(x,y);
+    universe->setByte(x, y, byte == 0);
 }
 
 string SimpleMode::getDifferenceGeneration(const int gen) {
     if(gen <= 0)
     {
-        return "";
+        return "ERROR";
+    }
+    if(gen > nbMaxGenerations)
+    {
+        return "FIN";
     }
     stringstream convert;
     string genStr = generations[gen];
     string postGen = generations[gen - 1];
-
+    if(genStr=="" || postGen=="")
+        return "ERROR";
     int mid;
     int decalageGen = 0,decalagePost = 0;
     int taille;
@@ -44,7 +53,7 @@ string SimpleMode::getDifferenceGeneration(const int gen) {
     for (int i = 0; i < taille; ++i) {
         if(genStr[i + decalageGen] != postGen[i + decalagePost] && genStr[i + decalageGen] != '\n' && postGen[i + decalagePost] != '\n')
         {
-            convert << x << " " << y  << " 0 0/";
+            convert <<"x="<< x << ",y=" << y  << ",mode=0,idP=-1 ";
         }
         x++;
         if (x >= mid)
@@ -66,13 +75,40 @@ string SimpleMode::getDifferenceGeneration(const int gen) {
     return convert.str();
 }
 
-void SimpleMode::startRunning() {
-    for (int i = 0; i < nbMaxGenerations; ++i) {
-        generations[i] = universe->getRoot()->getThis();
-        universe->runStep();
+int SimpleMode::startRunning() {
+    nbPlayerStart++;
+    if(nbPlayerStart != nbJoueur)
+    {
+        return 0;
     }
+    cout << "creation thread players" <<endl;
+    for (int i = 0; i < nbMaxGenerations; ++i) {
+        generations[i] == "";
+    }
+    generations[0] = universe->getRoot()->getThis();
+    CreateThread(NULL, 0,SimpleMode::running, this,0,NULL);
+    nbPlayerStart = 0;
+    return 1;
 }
+
+
 
 int SimpleMode::getWinner() {
     return 0;
 }
+
+DWORD SimpleMode::test()
+{
+    for (int i = 1; i <= nbMaxGenerations; ++i) {
+        universe->runStep();
+        generations[i] = universe->getRoot()->getThis();
+    }
+}
+
+DWORD WINAPI SimpleMode::running(void *arg) {
+    cout << "debut thread game" << endl;
+    SimpleMode *Obj = static_cast<SimpleMode*>(arg);
+    return Obj->test();
+}
+
+

@@ -5,6 +5,11 @@
 #include <iostream>
 #include <string>
 #include <list>
+#include <vector>
+#include <cstdio>
+#include <sstream>
+#include <algorithm>
+#include "Player.h"
 
 #ifndef SERVERGAMEOFLIFE_MODE_H
 #define SERVERGAMEOFLIFE_MODE_H
@@ -13,8 +18,7 @@ using namespace std;
 
 class Mode {
     public:
-        Mode(int nbJoueur, int nbMaxGeneration) : nbJoueur(nbJoueur), nbMaxGenerations(nbMaxGeneration) {
-            idJoueurs = new int[nbJoueur];
+        Mode(int nbJoueur, int nbMaxGeneration,string name) : id(globId++), nbJoueur(nbJoueur), nbMaxGenerations(nbMaxGeneration), name(name) {
         }
         /**
          * change le byte x,y avec l'id Joueur.
@@ -38,8 +42,9 @@ class Mode {
 
         /**
          * Fait tourner l'algorithme de HashLife sur nbGeneration.
+         * @return 0 si tout le monde n'as pas commencer sinon 1.
          */
-        virtual void startRunning()= 0;
+        virtual int startRunning()= 0;
 
         /**
          * retourne l'id du gagnant du mode.
@@ -52,29 +57,70 @@ class Mode {
          * @param id
          * @return retourne -1 si la partie est pleine, 0 si la partie n'est pas encore pleine et 1 si la partie est complete
          */
-        int addJoueur(const int id){
-            if(indexId >= nbJoueur)
+        int addJoueur(Player * player){
+            if(idJoueurs.size() >= nbJoueur)
             {
                 cerr << "partie pleine";
                 return -1;
             }
-            idJoueurs[indexId] = id;
-            indexId++;
-            if(indexId == nbJoueur)
+            idJoueurs.push_back(player);
+            if(idJoueurs.size() == nbJoueur)
             {
                 return 1;
             }
             return 0;
         };
 
+        /**
+             * suprime le joueur id à la partie
+             * @param id
+             * @return retourne 0 si la partie est vide ou qu'il n'y a plus qu'un joueur, 1 si la partie n'est pas encore pleine, -1 si le joueur n'existe pas.
+             */
+        int deleteJoueur(const int id){
+            int pos = -1;
+            auto it = find_if(idJoueurs.begin(),idJoueurs.end(),[id](const Player* play){return play->getId() == id;});
+            if(it == idJoueurs.end()){
+                return -1;
+            }
+            idJoueurs.erase(it);
+            if(idJoueurs.size() <= 1)
+            {
+                return  0;
+            }
+            return 1;
+        };
 
-    protected:
+        vector<Player *> getJoueurs() const
+        {
+            return idJoueurs;
+        }
+
+        bool complete()
+        {
+            return idJoueurs.size() >= nbJoueur;
+        }
+
+        string infos()
+        {
+            stringstream ss;
+            ss << "id="<<id<<",name=" << name << ",nbJoueur=" << idJoueurs.size() << ",nbJoueurMax=" << nbJoueur;
+            return ss.str();
+        }
+
+        int getId() const {
+            return id;
+        }
+
+protected:
+        static int globId ;
+        int id;
         int nbJoueur;
-        int * idJoueurs;
+        vector<Player *> idJoueurs;
         int nbMaxGenerations;
-        int indexId = 0;
+        int nbPlayerStart = 0;
+        string name;
+
 
 };
-
 
 #endif //SERVERGAMEOFLIFE_MODE_H

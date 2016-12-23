@@ -7,9 +7,6 @@
 
 
 #include "Mode.h"
-#include "../HashlifeGameOfLife/src/TreeUniverse.h"
-#include "../HashlifeGameOfLife/src/TreeNode.h"
-
 class SimpleMode : public Mode {
 public:
     SimpleMode();
@@ -19,13 +16,17 @@ private:
 
     virtual string getDifferenceGeneration(const int gen) override;
 
-    virtual void startRunning() override;
+    virtual int startRunning() override;
 
     virtual int getWinner() override;
 
+    static DWORD WINAPI running(void *);
+
+    DWORD test();
+
     TreeUniverse* universe;
 
-    string generations[10];
+    string generations[11];
 };
 
 
