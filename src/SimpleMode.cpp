@@ -22,4 +22,8 @@ int SimpleMode::getWinner() {
     return 0;
 }
 
+void SimpleMode::initializeZone() {
+
+}
+
 

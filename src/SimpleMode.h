@@ -15,6 +15,9 @@ private:
     virtual void setByte(const int x, const int y, const int idJoueur) override;
 
     virtual int getWinner() override;
+
+public:
+    void initializeZone() override;
 };
 
 

@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.6)
 project(GameOfLifeMode)
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++11")
 
 
 
@@ -11,3 +11,7 @@ set(SOURCE_FILES main.cpp src/Mode.h src/Mode.cpp src/SimpleMode.cpp src/SimpleM
         HashlifeGameOfLife/src/CanonicalTreeNode.cpp HashlifeGameOfLife/src/CanonicalTreeNode.h
         HashlifeGameOfLife/src/HashLifeTreeNode.cpp HashlifeGameOfLife/src/HashLifeTreeNode.h src/Zone.cpp src/Zone.h src/Point.cpp src/Point.h)
 add_executable(GameOfLifeMode ${SOURCE_FILES})
+
+if (WIN32)
+    target_link_libraries(GameOfLifeMode wsock32 ws2_32)
+endif ()

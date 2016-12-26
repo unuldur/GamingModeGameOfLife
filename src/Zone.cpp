@@ -2,8 +2,8 @@
 // Created by julie on 24/12/2016.
 //
 
-#include <algorithm>
 #include <sstream>
+#include <algorithm>
 #include "Zone.h"
 
 void Zone::addPoint(const Point & point) {
