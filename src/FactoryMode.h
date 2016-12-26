@@ -8,8 +8,7 @@
 #include <map>
 #include "Mode.h"
 #include "SimpleMode.h"
-
-template <typename T> Mode* createT(){return new T;}
+#include "ModeConquest.h"
 
 class FactoryMode {
 
@@ -18,6 +17,10 @@ public :
         if(s == "SimpleMode")
         {
             return new SimpleMode();
+        }
+        if(s == "Conquest")
+        {
+            return new ModeConquest();
         }
     }
 };
