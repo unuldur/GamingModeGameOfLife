@@ -11,7 +11,7 @@ void Zone::addPoint(const Point & point) {
 }
 
 Point Zone::getPoint(int X, int Y) {
-    auto it = find(zone.begin(),zone.end(),[&X,&Y](const Point& point){return point.getX() == X && point.getY() == Y;});
+    auto it = find_if(zone.begin(),zone.end(),[&](const Point& point){return point.getX() == X && point.getY() == Y;});
     return (*it);
 }
 
