@@ -7,18 +7,21 @@
 
 
 #include "Mode.h"
+#include "../HashlifeGameOfLife/src/TreeNode.h"
+#include "Zone.h"
 
 class ModeConquest : public Mode{
 public:
     ModeConquest();
 
-    virtual string getDifferenceGeneration(const int gen) override;
-
-    virtual int startRunning() override;
-
     virtual void setByte(const int x, const int y, const int idJoueur) override;
 
     virtual int getWinner() override;
+
+    void initializeZone() override;
+
+private:
+
 
 };
 

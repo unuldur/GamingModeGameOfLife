@@ -8,8 +8,7 @@
 #include <pthread.h>
 #include <iostream>
 using namespace std;
-
-SimpleMode::SimpleMode() : Mode(2, 10,"SimpleMode") {
+SimpleMode::SimpleMode() : Mode(2, 10,new TreeUniverse(),"SimpleMode") {
     universe = new TreeUniverse();
 }
 
@@ -27,52 +26,8 @@ string SimpleMode::getDifferenceGeneration(const int gen) {
     {
         return "FIN";
     }
-    stringstream convert;
-    string genStr = generations[gen];
-    string postGen = generations[gen - 1];
-    if(genStr=="" || postGen=="")
-        return "ERROR";
-    int mid;
-    int decalageGen = 0,decalagePost = 0;
-    int taille;
-    if (genStr.length() > postGen.length())
-    {
-        mid  = (int)(sqrt(postGen.length())/2);
-        taille = postGen.length();
-        decalageGen = mid*mid*4 + 2 * mid ;
-    } else {
-        mid  = (int)(sqrt(genStr.length())/2);
-        taille = genStr.length();
-        if(genStr.length() != postGen.length())
-        {
-            decalagePost = mid*mid*4 + 2 * mid;
-        }
-    }
-    int x = 0 - mid;
-    int y = 0 - mid;
-    for (int i = 0; i < taille; ++i) {
-        if(genStr[i + decalageGen] != postGen[i + decalagePost] && genStr[i + decalageGen] != '\n' && postGen[i + decalagePost] != '\n')
-        {
-            convert <<"x="<< x << ",y=" << y  << ",mode=0,idP=-1 ";
-        }
-        x++;
-        if (x >= mid)
-        {
-            x =  0 - mid;
-            y++;
-            if(decalageGen != 0)
-            {
-                decalageGen += mid*2 ;
-            }
 
-            if(decalagePost != 0)
-            {
-                decalagePost += mid*2;
-            }
-            i++;
-        }
-    }
-    return convert.str();
+    return "";
 }
 
 int SimpleMode::startRunning() {
@@ -83,9 +38,7 @@ int SimpleMode::startRunning() {
     }
     cout << "creation thread players" <<endl;
     for (int i = 0; i < nbMaxGenerations; ++i) {
-        generations[i] == "";
     }
-    generations[0] = universe->getRoot()->getThis();
     CreateThread(NULL, 0,SimpleMode::running, this,0,NULL);
     nbPlayerStart = 0;
     return 1;
@@ -101,7 +54,6 @@ DWORD SimpleMode::test()
 {
     for (int i = 1; i <= nbMaxGenerations; ++i) {
         universe->runStep();
-        generations[i] = universe->getRoot()->getThis();
     }
 }
 

@@ -5,8 +5,8 @@
 #ifndef SERVERGAMEOFLIFE_SIMPLEMODE_H
 #define SERVERGAMEOFLIFE_SIMPLEMODE_H
 
-
 #include "Mode.h"
+#include "../HashlifeGameOfLife/src/TreeUniverse.h"
 class SimpleMode : public Mode {
 public:
     SimpleMode();
@@ -26,7 +26,7 @@ private:
 
     TreeUniverse* universe;
 
-    string generations[11];
+    TreeNode*  generations[11];
 };
 
 
