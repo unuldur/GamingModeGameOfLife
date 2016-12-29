@@ -31,7 +31,7 @@ class Mode {
         /**
          * change le byte x,y avec l'id Joueur.
          */
-        virtual void setByte(const int x,const int y,const int idJoueur) = 0;
+        virtual bool setByte(const int x,const int y,const int idJoueur) = 0;
 
         /**
          * permet d'obtenir les difference entre la generation gen et la generation gen-1

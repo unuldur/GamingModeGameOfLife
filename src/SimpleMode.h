@@ -12,7 +12,7 @@ public:
     SimpleMode();
 
 private:
-    virtual void setByte(const int x, const int y, const int idJoueur) override;
+    virtual bool setByte(const int x, const int y, const int idJoueur) override;
 
     virtual int getWinner() override;
 

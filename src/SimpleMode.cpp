@@ -11,7 +11,7 @@ using namespace std;
 SimpleMode::SimpleMode() : Mode(2, 10,new TreeUniverse(),"SimpleMode") {
 }
 
-void SimpleMode::setByte(const int x, const int y, const int idJoueur) {
+bool SimpleMode::setByte(const int x, const int y, const int idJoueur) {
     int byte = treeUniverse->getByte(x,y);
     treeUniverse->setByte(x, y, byte == 0);
 }

@@ -32,12 +32,14 @@ int ModeConquest::getWinner() {
     }
 }
 
-void ModeConquest::setByte(const int x, const int y, const int idJoueur) {
+bool ModeConquest::setByte(const int x, const int y, const int idJoueur) {
     if(zone->exist(x,y,idJoueur))
     {
         int byte = treeUniverse->getByte(x,y);
         treeUniverse->setByte(x, y, byte == 0);
+        return true;
     }
+    return false;
 }
 
 void ModeConquest::initializeZone() {
