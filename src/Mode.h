@@ -25,6 +25,7 @@ class Mode {
                                                                                     nbMaxGenerations(nbMaxGeneration),
                                                                                     name(name), treeUniverse(universe) {
             generations = new TreeNode*[nbMaxGeneration];
+            zone = new Zone();
         }
 
         /**
